@@ -10,38 +10,26 @@ def get_vacancies(params):
         'User-Agent': 'User-Agent'
     }
     pars_vacancies = []
-    for page in range(1, 20):
-        vacancies = requests.get(url, params=params, headers=headers)
-        data = vacancies.content.decode()
-        jsObj = json.loads(data)['items']
-        print(jsObj)
-        for vacancie in jsObj:
-            pars_vacancies.append([vacancie['name'],
-                                  vacancie['premium'],
-                                  vacancie['has_test'],
-                                  vacancie['type']['name'],
-                                  vacancie['published_at'],
-                                  vacancie['snippet']['requirement'],
-                                  vacancie['snippet']['responsibility'],
-                                  vacancie['schedule']['name'],
-                                  vacancie['professional_roles'][0]['name'],
-                                  vacancie['experience']['name']])
-
-        df = pd.DataFrame(pars_vacancies, columns=[
-                                                   'name',
-                                                   'premium',
-                                                    'has_test',
-                                                    'type_vacancie',
-                                                    'published_at',
-                                                    'snippet_requirement',
-                                                    'snippet_responsibility',
-                                                    'schedule_name',
-                                                    'professional_roles',
-                                                    'experience'
-                                                  ]).dropna(how='all')
-        print(df)
+    for page in range(1, params.page + 1):
+        response = requests.get(url, params=params, headers=headers)
+        if response.status_code == 200:
+            vacancies = response.json().get('items', [])
+            for vacancie in vacancies:
+                pars_vacancies.append({'id': vacancie.get('id'),
+                                       'url': vacancie.get('alternate_url'),
+                                       'position': vacancie.get('name'),
+                                       'premium': vacancie.get('premium'),
+                                       'test': vacancie.get('has_test'),
+                                       'contacts': vacancie.get('contacts'),
+                                       'company_name': vacancie.get('employer').get('name'),
+                                       'vac_type': vacancie.get('type').get('name'),
+                                       'published': vacancie.get('published_at'),
+                                       'requirement': vacancie.get('snippet').get('requirement'),
+                                       'responsibility': vacancie.get('snippet').get('responsibility'),
+                                       'schedule': vacancie.get('schedule').get('name'),
+                                       'professional_roles': vacancie.get('professional_roles')[0].get('name'),
+                                       'experience': vacancie.get('experience').get('name')})
     return pars_vacancies
-
 
 
 def get_resume():
