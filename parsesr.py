@@ -15,17 +15,16 @@ def get_vacancies(params):
         if response.status_code == 200:
             vacancies = response.json().get('items', [])
             for vacancie in vacancies:
-                pars_vacancies.append({'id': vacancie.get('id'),
+                pars_vacancies.append({'vacancie_id': vacancie.get('id'),
                                        'url': vacancie.get('alternate_url'),
-                                       'position': vacancie.get('name'),
+                                       'name': vacancie.get('name'),
                                        'premium': vacancie.get('premium'),
-                                       'test': vacancie.get('has_test'),
+                                       'has_test': vacancie.get('has_test'),
                                        'contacts': vacancie.get('contacts'),
                                        'company_name': vacancie.get('employer').get('name'),
-                                       'vac_type': vacancie.get('type').get('name'),
-                                       'published': vacancie.get('published_at'),
-                                       'requirement': vacancie.get('snippet').get('requirement'),
-                                       'responsibility': vacancie.get('snippet').get('responsibility'),
+                                       'vacancie_type': vacancie.get('type').get('name'),
+                                       'snippet_requirement': vacancie.get('snippet').get('requirement'),
+                                       'snippet_responsibility': vacancie.get('snippet').get('responsibility'),
                                        'schedule': vacancie.get('schedule').get('name'),
                                        'professional_roles': vacancie.get('professional_roles')[0].get('name'),
                                        'experience': vacancie.get('experience').get('name')})

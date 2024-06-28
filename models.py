@@ -11,7 +11,7 @@ class Vacancie(Base):
     id = Column(Integer, primary_key=True)
     vacancie_id = Column(Integer, unique=True)
     url = Column(String, unique=True)
-    name = Column(String, unique=True, index=True)
+    name = Column(String)
     premium = Column(Boolean)
     has_test = Column(Boolean)
     company_name = Column(String)

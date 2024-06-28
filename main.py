@@ -1,11 +1,13 @@
 from fastapi import FastAPI, Depends
+from sqlalchemy import insert
+
 from parsesr import get_vacancies, get_resume
 from schemas import Vacancies
 from database import SessionLocal, engine
 from sqlalchemy.orm import Session
 import sqlalchemy as sq
-from models import Vacancie, Base
-from crud import create_vacancie
+from models import Base, Vacancie
+from crud import create_vacancie, update_vacancie
 
 Base.metadata.create_all(bind=engine)
 
@@ -23,14 +25,11 @@ def get_db():
 
 @app.post('/')
 def vacancies_post(params: Vacancies, db: Session = Depends(get_db)):
-    vacancies_table = Vacancie().qe
     vacs = get_vacancies(params)
     for vac in vacs:
-        table_vacancie = db.execute(sq.select(vacancies_table).where(vacancies_table.vacancie_id == vac['id']))
-        if table_vacancie is None:
+        vacancies_table = db.query(Vacancie).filter_by(vacancie_id=vac["vacancie_id"]).first()
+        if vacancies_table is not None:
+            update_vacancie(db, vac)
+        else:
             create_vacancie(db, vac)
-        db.execute(sq.update(vacancies_table).where(
-            vacancies_table.vacancie_id == vac['id']
-        ).values(**vac))
-        db.commit()
     return 'ok'
