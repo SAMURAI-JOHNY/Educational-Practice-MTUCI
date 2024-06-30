@@ -1,10 +1,33 @@
 import React from "react";
 import { GetVacancies } from "../api/GetVacancies"
+import { useState, useEffect } from "react";
 import './Table.css'
 
-export const vacancies = Object.values(GetVacancies);
+type Vacancy = {
+    vacancie_id: number;
+    url: string;
+    name: string;
+    company_name: string;
+    contacts: string;
+    vacancie_type: string;
+    snippet_requirement: string;
+    snippet_responsibility: string;
+    schedule: string;
+    professional_roles: string;
+    experience: string;
+};
 
 export function Table() {
+	const [vacancies, setVacancies] = useState<Vacancy[]>([]);
+
+    useEffect(() => {
+        const fetchVacancies = async () => {
+            const data = await GetVacancies();
+            setVacancies(data);
+        };
+
+        fetchVacancies();
+    }, []);
 	return (
 		<div>
 			<table>

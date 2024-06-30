@@ -3,10 +3,9 @@ from typing import Union
 
 
 class Vacancies(BaseModel):
-    area: Union[int, None] = None
-    per_page: int = 200
+    text: Union[str, None] = None
+    per_page: int = 100
     page: int = 1
-    experience: Union[str, None] = None
     only_with_salary: Union[bool, None] = None
 
 

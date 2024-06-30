@@ -41,14 +41,15 @@ def vacancies_post(params: Vacancies, db: Session = Depends(get_db)):
     vacs = get_vacancies(params)
     for vac in vacs:
         vacancies_table = db.query(Vacancie).filter_by(vacancie_id=vac["vacancie_id"]).first()
-        if vacancies_table is not None:
+        print(vacancies_table)
+        if vacancies_table != None:
             update_vacancie(db, vac)
         else:
             create_vacancie(db, vac)
-    return 'ok'
+    return vacs
 
 
 @app.get('/vacancies_filter')
-def vacancies_filter(db: Session = Depends(get_db)):
+async def vacancies_filter(db: Session = Depends(get_db)):
     items = db.query(Vacancie).all()
     return items

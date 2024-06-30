@@ -1,10 +1,16 @@
-import axios from 'axios'
-import { error } from 'console'
+import axios from 'axios';
 
-export const GetVacancies = () => {
-    return axios.get('http://127.0.0.1:8000/vacancies_filter').then(response => {
-        if (response.status === 200)  
-            console.log('Данные получены:', response.data);
+export const GetVacancies = async () => {
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/vacancies_filter');
+        if (response.status === 200) {
             return response.data;
-    }).catch(error => console.error(error))
-}
+        } else {
+            console.error('Статус ответа:', response.status);
+            return [];
+        }
+    } catch (error) {
+        console.error('Ошибка при запросе:', error);
+        return [];
+    }
+};
