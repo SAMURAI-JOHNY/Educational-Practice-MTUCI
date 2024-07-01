@@ -4,7 +4,9 @@ import axios from 'axios';
 function Parser() {
   const [data, setData] = useState({
     text: '',
+    area: NaN
   });
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -27,6 +29,7 @@ function Parser() {
     <div>
       <h1>Моя страница</h1>
       <input name="text" value={data.text} onChange={handleChange}/>
+      <input name="area" value={data.area} onChange={handleChange}/>
       <button onClick={handleSubmit}>Отправить</button>
     </div>
   );

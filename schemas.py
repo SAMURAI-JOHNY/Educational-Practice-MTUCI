@@ -4,6 +4,7 @@ from typing import Union
 
 class Vacancies(BaseModel):
     text: Union[str, None] = None
+    area: Union[int, None] = None
     per_page: int = 100
     page: int = 1
     only_with_salary: Union[bool, None] = None
