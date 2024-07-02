@@ -15,7 +15,6 @@ class Vacancie(Base):
     premium = Column(Boolean)
     has_test = Column(Boolean)
     company_name = Column(String)
-    contacts = Column(String)
     vacancie_type = Column(String)
     snippet_requirement = Column(String)
     snippet_responsibility = Column(String)

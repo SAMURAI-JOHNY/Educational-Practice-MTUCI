@@ -23,3 +23,57 @@ table th {
     background-color: #4CAF50;
     color: white;
 }
+
+.table-container {
+    position: relative;
+    bottom: -50px;
+  }
+
+.button-container {
+    position: absolute;
+    bottom: -50px; 
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+.button-container button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: large;
+    border-radius: 1px;
+    border-color: rgb(57, 201, 57);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-container button:hover {
+    background-color: #4CAF50;
+}
+
+.-filter-container {
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    margin: 20px;
+}
+
+.company-filter {
+    margin: 20px;
+}
+
+.test-label {
+    transform: translate(50px, 100px);
+}
+
+.vacancies {
+    transform: translate(5px, 40px);
+}
+
+.test-filter {
+    transform: translate(-260px, 30px);
+}
+.vacancie-name-filter {
+
+}
