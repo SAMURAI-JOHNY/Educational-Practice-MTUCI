@@ -12,8 +12,9 @@ def create_vacancie(db: Session, vacancies: ParsVacancies):
 
 
 def update_vacancie(db: Session, vacancies: dict):
-    db_vacancies = db.query(Vacancie).filter(Vacancie.vacancie_id == vacancies['vacancie_id'])
+    db_vacancies = db.query(Vacancie).filter(Vacancie.vacancie_id == vacancies['vacancie_id']).first()
     for var, value in vacancies.items():
-        setattr(db_vacancies, var, value) if value else None
+        if value is not None:
+            setattr(db_vacancies, var, value)
     db.commit()
     return db_vacancies

@@ -1,15 +1,14 @@
 from pydantic import BaseModel
-from typing import Union
 
 
 class Vacancies(BaseModel):
-    text: Union[str, None] = None 
-    experience: Union[str, None] = None
-    schedule: Union[str, None] = None
-    employment: Union[str, None] = None
+    text: str | None = None 
+    experience: str | None = None
+    schedule: str | None = None
+    employment: str | None = None
     per_page: int = 100
     page: int = 1
-    only_with_salary: Union[bool, None] = None
+    only_with_salary: bool = False
 
 
 class ParsVacancies(BaseModel):

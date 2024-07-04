@@ -19,9 +19,12 @@ def get_vacancies(params):
                 if salary_info:
                     salary_from = salary_info.get('from')
                     salary_to = salary_info.get('to')
-                    salary_str = f"{salary_from} - {salary_to}" if salary_from and salary_to else "Зарплата не указана"
-                else:
-                    salary_str = "Зарплата не указана"
+                    if salary_from is None:
+                        salary_str = f"До {salary_to}"
+                    elif salary_to is None:
+                        salary_str = f"От {salary_from}"
+                    elif salary_from and salary_to:
+                        salary_str = f"{salary_to} - {salary_from}"
                 pars_vacancies.append({'vacancie_id': vacancie.get('id'),
                                        'url': vacancie.get('alternate_url'),
                                        'name': vacancie.get('name'),

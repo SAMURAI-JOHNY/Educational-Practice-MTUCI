@@ -39,13 +39,21 @@ def get_db():
 @app.post('/')
 def vacancies_post(params: Vacancies, db: Session = Depends(get_db)):
     vacs = get_vacancies(params)
+    db_vacancie_id = [vac.vacancie_id for vac in db.query(Vacancie).all()]
+
     for vac in vacs:
         vacancies_table = db.query(Vacancie).filter_by(vacancie_id=vac["vacancie_id"]).first()
-        print(vacancies_table)
-        if vacancies_table != None:
+        if vacancies_table:
             update_vacancie(db, vac)
         else:
             create_vacancie(db, vac)
+
+    for vac_id in db_vacancie_id: 
+        if vac_id not in [vac["vacancie_id"] for vac in vacs]:
+            vac_to_delete = db.query(Vacancie).filter_by(vacancie_id=vac_id).first()
+            if vac_to_delete:
+                db.delete(vac_to_delete)
+    db.commit()
     return vacs
 
 
