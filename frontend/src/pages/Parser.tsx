@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { experience, employment, schedule } from './FilterId';
 import { useNavigate } from 'react-router-dom';
+import './Parser.css'
 
 type FormData = {
   text: string;
@@ -21,6 +22,7 @@ function Parser() {
     employment: '',
     only_with_salary: false
   });
+  const [error, setError] = useState('');
  
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setData(prevData => ({
@@ -63,9 +65,11 @@ function Parser() {
     try {
       const response = await axios.post('http://localhost:8000/', formData);
       console.log('Успешно:', response.data);
-      navigate('/vacancies_filter');
+      setError('Парсинг окончен')
+      navigate('vacancies_filter')
     } catch (error) {
       console.error('Ошибка при отправке данных:', error);
+      setError('Ошибка при отправке данных, попробуйте сонова')
     }
   };
 
@@ -78,39 +82,44 @@ function Parser() {
 
   return (
     <div>
-      <h1>Моя страница</h1>
-      <input
-        type="text"
-        onChange={handleTextChange}
-        placeholder="Ключевое слово в вакансии"
-        />
-      <select name="employment" onChange={handleEmploymentChange}>
-        <option value="">Занятость</option>
-        {employment.map(option => (
-          <option key={option.id} value={option.name}>{option.name}</option>
-        ))}
-      </select>
-      <select name="schedule" onChange={handleScheduleChange}>
-        <option value="">График</option>
-        {schedule.map(option => (
-          <option key={option.id} value={option.name}>{option.name}</option>
-        ))}
-      </select>
-      <select name="experience" onChange={handleExperienceChange}>
-        <option value="">Опыт работы</option>
-        {experience.map(option => (
-          <option key={option.id} value={option.name}>{option.name}</option>
-        ))}
-      </select>
-      <label>
-        Только с зарплатой
+      <h1>Парсер вакансий с сайта hh.ru</h1>
+      <div className='company-filter-container'>
         <input
-          type="checkbox"
-          checked={data.only_with_salary}
-          onChange={handleSalaryChange}
-        />
-      </label>
-      <button onClick={handleSubmit}>Отправить</button>
+          type="text"
+          onChange={handleTextChange}
+          placeholder="Ключевое слово в вакансии"
+          />
+        <select name="employment" onChange={handleEmploymentChange}>
+          <option value="">Любая занятость</option>
+          {employment.map(option => (
+            <option key={option.id} value={option.name}>{option.name}</option>
+          ))}
+        </select>
+        <select name="schedule" onChange={handleScheduleChange}>
+          <option value="">Дюбой график</option>
+          {schedule.map(option => (
+            <option key={option.id} value={option.name}>{option.name}</option>
+          ))}
+        </select>
+        <select name="experience" onChange={handleExperienceChange}>
+          <option value="">Любой опыт работы</option>
+          {experience.map(option => (
+            <option key={option.id} value={option.name}>{option.name}</option>
+          ))}
+        </select>
+        <label className='test-label'>
+          Только с указанием зарплаты
+          <input
+            type="checkbox"
+            checked={data.only_with_salary}
+            onChange={handleSalaryChange}
+          />
+        </label>
+      </div>
+      <div className='button-container'>
+        <button onClick={handleSubmit}>Начать парсинг</button>
+      </div>
+      {error && <div style={{ color: 'red' }}>{error}</div>}
     </div>
   );
 }

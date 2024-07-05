@@ -15,6 +15,7 @@ def get_vacancies(params):
         if response.status_code == 200:
             vacancies = response.json().get('items', [])
             for vacancie in vacancies:
+                salary_str = "Зарплата не указана"
                 salary_info = vacancie.get('salary')
                 if salary_info:
                     salary_from = salary_info.get('from')
@@ -24,7 +25,7 @@ def get_vacancies(params):
                     elif salary_to is None:
                         salary_str = f"От {salary_from}"
                     elif salary_from and salary_to:
-                        salary_str = f"{salary_to} - {salary_from}"
+                        salary_str = f"{salary_from} - {salary_to}"
                 pars_vacancies.append({'vacancie_id': vacancie.get('id'),
                                        'url': vacancie.get('alternate_url'),
                                        'name': vacancie.get('name'),
