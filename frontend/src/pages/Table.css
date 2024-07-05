@@ -1,8 +1,9 @@
 :root {
-    --primary-gradient: linear-gradient(45deg, #2193b0, #6dd5ed);
+    --body-gradient: linear-gradient(45deg, #2193b0, #6dd5ed);
+    --button-gradient: linear-gradient(45deg, #0b4857, #237e93);
     --secondary-gradient: linear-gradient(45deg, #cc2b5e, #753a88);
     --font-color: #fff;
-    --border-radius: 8px;
+    --border-radius: 10px;
     --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -10,7 +11,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 20px;
-    background: var(--primary-gradient);
+    background: var(--body-gradient);
     color: var(--font-color);
 }
 
@@ -96,7 +97,7 @@ tr:hover {
     padding: 10px 20px;
     border: none;
     border-radius: var(--border-radius);
-    background: var(--primary-gradient);
+    background: var(--button-gradient);
     color: var(--font-color);
     cursor: pointer;
     transition: transform 0.3s ease;

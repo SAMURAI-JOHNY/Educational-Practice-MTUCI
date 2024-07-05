@@ -1,3 +1,96 @@
-.text {
-    font-size: 30px;
+:root {
+    --body-gradient: linear-gradient(45deg, #2193b0, #6dd5ed);
+    --button-gradient: linear-gradient(45deg, #0b4857, #237e93);
+    --secondary-gradient: linear-gradient(45deg, #cc2b5e, #753a88);
+    --font-color: #fff;
+    --border-radius: 10px;
+    --box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: var(--body-gradient);
+    color: var(--font-color);
+}
+
+.company-filter-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--secondary-gradient);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.company-filter-container input,
+.company-filter-container select {
+    padding: 10px;
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--font-color);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.company-filter-container input::placeholder,
+.company-filter-container select {
+    color: var(--font-color);
+}
+
+.company-filter-container input:focus,
+.company-filter-container select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #6dd5ed;
+}
+
+.test-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.test-filter {
+    accent-color: #6dd5ed;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    background: var(--button-gradient);
+    color: var(--font-color);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.button-container button:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow);
+}
+
+.company-filter-container select {
+    position: relative;
+    background-size: 12px;
+}
+
+.company-filter-container select:hover,
+.company-filter-container select:focus {
+    background-color: rgba(109, 21, 21, 0.4);
+}
+
+.company-filter-container input[type="text"]:hover,
+.company-filter-container input[type="text"]:focus {
+    background-color: rgba(81, 15, 15, 0.4);
+}
+
+.button-container button:active,
+.button-container button:hover {
+    background: var(--secondary-gradient);
 }

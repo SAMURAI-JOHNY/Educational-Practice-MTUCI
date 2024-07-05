@@ -59,10 +59,17 @@ export function Table() {
 
 	const handleOnlyWithTestFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setOnlyWithTest(event.target.checked);
+        if (event.target.checked) {
+            setOnlyWithoutTest(false);
+        }    
     };
 
     const handleOnlyWithoutTestFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setOnlyWithoutTest(event.target.checked);
+        if (event.target.checked) {
+            setOnlyWithTest(false);
+        }
+    
     };
 
 	const handleNameFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,7 +121,7 @@ export function Table() {
                         <option key={vacancie_type} value={vacancie_type}>{vacancie_type}</option>
                     ))}
                 </select>
-                <label className="test-label">наличие теста
+                <label className="test-label">с тестом
                 <input
                     type="checkbox"
                     checked={onlyWithTestFilter}
@@ -123,7 +130,7 @@ export function Table() {
                     placeholder="наличие теста"
                 />
                 </label>
-                <label className="test-label">наличие теста
+                <label className="test-label">без теста
                 <input
                     type="checkbox"
                     checked={onlyWithoutTestFilter}
@@ -139,8 +146,8 @@ export function Table() {
                     onChange={handleNameFilterChange}
                     placeholder="Фильтр по названию вакансии"
                 />
-                <select value={typeFilter} onChange={handleTypeFilterChange}>
-                    <option value="">Все типы</option>
+                <select value={scheduleFilter} onChange={handleScheduleFilterChange}>
+                    <option value="">Любой график</option>
                     {uniqueSchedules.map(schedule => (
                         <option key={schedule} value={schedule}>{schedule}</option>
                     ))}
