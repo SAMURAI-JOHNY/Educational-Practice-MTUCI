@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { experience, schedule } from "./FilterId";
 
 type Vacancy = {
-    vacancie_id: number;
+    vacancy_id: number;
     url: string;
     name: string;
 	has_test: boolean;
     company_name: string;
     contacts: string;
-    vacancie_type: string;
+    vacancy_type: string;
     salary: string;
     snippet_requirement: string;
     snippet_responsibility: string;
@@ -45,7 +45,7 @@ export function Table() {
     const navigate = useNavigate();
 
 	const uniqueSchedules = Array.from(new Set(vacancies.map(vacancy => vacancy.schedule)));
-    const uniqueTypes = Array.from(new Set(vacancies.map(vacancy => vacancy.vacancie_type)));
+    const uniqueTypes = Array.from(new Set(vacancies.map(vacancy => vacancy.vacancy_type)));
     const uniqueExperiencies = Array.from(new Set(vacancies.map(vacancy => vacancy.experience)));
 
 
@@ -99,7 +99,7 @@ export function Table() {
         (onlyWithoutTestFilter ? !vacancy.has_test : true) &&
 		(vacancy.name.toLowerCase().includes(NameFilter.toLowerCase())) &&
 		(scheduleFilter ? vacancy.schedule === scheduleFilter : true) &&
-        (typeFilter ? vacancy.vacancie_type === typeFilter : true) &&
+        (typeFilter ? vacancy.vacancy_type === typeFilter : true) &&
         (experienceFilter ? vacancy.experience === experienceFilter: true)
     );
 
@@ -117,8 +117,8 @@ export function Table() {
                 />
                 <select value={typeFilter} onChange={handleTypeFilterChange}>
                     <option value="">Все типы</option>
-                    {uniqueTypes.map(vacancie_type => (
-                        <option key={vacancie_type} value={vacancie_type}>{vacancie_type}</option>
+                    {uniqueTypes.map(vacancy_type => (
+                        <option key={vacancy_type} value={vacancy_type}>{vacancy_type}</option>
                     ))}
                 </select>
                 <label className="test-label">с тестом
@@ -182,7 +182,7 @@ export function Table() {
 							    <td>{val.name}</td>
 							    <td>{val.has_test ? 'есть' : 'нет'}</td>
 							    <td>{val.company_name}</td>
-							    <td>{val.vacancie_type}</td>
+							    <td>{val.vacancy_type}</td>
                                 <td>{val.salary}</td>
 							    <td>{val.snippet_requirement}</td>
 							    <td>{val.snippet_responsibility}</td>

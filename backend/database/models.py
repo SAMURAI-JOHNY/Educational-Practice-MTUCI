@@ -5,17 +5,17 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-class Vacancie(Base):
+class Vacancy(Base):
     __tablename__ = "vacancies"
 
     id = Column(Integer, primary_key=True)
-    vacancie_id = Column(Integer, unique=True)
+    vacancy_id = Column(Integer, unique=True)
     url = Column(String, unique=True)
     name = Column(String)
     premium = Column(Boolean)
     has_test = Column(Boolean)
     company_name = Column(String)
-    vacancie_type = Column(String)
+    vacancy_type = Column(String)
     salary = Column(String)
     snippet_requirement = Column(String)
     snippet_responsibility = Column(String)

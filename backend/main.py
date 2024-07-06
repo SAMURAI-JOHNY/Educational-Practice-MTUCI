@@ -1,16 +1,17 @@
 from fastapi import FastAPI, Depends
-from sqlalchemy import insert
-
-from parsesr import get_vacancies
-from schemas import Vacancies
-from database import SessionLocal, engine
-from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
-from models import Base, Vacancie
-from crud import create_vacancie, update_vacancie
+
+from sqlalchemy.orm import Session
+
+from hh_ru_parser.parser import get_vacancies
+
+from schemas import Vacancies
+
+from database.db_config import SessionLocal, engine
+from database.models import Base, Vacancy
+from database.crud import create_vacancy, update_vacancy, delete_old_vacancies
 
 Base.metadata.create_all(bind=engine)
-
 
 app = FastAPI()
 
@@ -31,28 +32,29 @@ def get_db():
         db.close()
 
 
+def process_vacancies(vacancies, db: Session):
+    existing_vacancy_ids = {vac.vacancy_id for vac in db.query(Vacancy).all()}
+
+    for vacancy in vacancies:
+        if vacancy["vacancy_id"] in existing_vacancy_ids:
+            update_vacancy(db, vacancy)
+        else:
+            create_vacancy(db, vacancy)
+
+    return existing_vacancy_ids
+
+
 @app.post('/')
 def vacancies_post(params: Vacancies, db: Session = Depends(get_db)):
-    vacs = get_vacancies(params)
-    db_vacancie_id = [vac.vacancie_id for vac in db.query(Vacancie).all()]
+    parse_vacancies = get_vacancies(params)
+    new_vacancies_id = process_vacancies(parse_vacancies, db)
 
-    for vac in vacs:
-        vacancies_table = db.query(Vacancie).filter_by(vacancie_id=vac["vacancie_id"]).first()
-        if vacancies_table:
-            update_vacancie(db, vac)
-        else:
-            create_vacancie(db, vac)
-
-    for vac_id in db_vacancie_id: 
-        if vac_id not in [vac["vacancie_id"] for vac in vacs]:
-            vac_to_delete = db.query(Vacancie).filter_by(vacancie_id=vac_id).first()
-            if vac_to_delete:
-                db.delete(vac_to_delete)
+    delete_old_vacancies(new_vacancies_id, [vacancy["vacancy_id"] for vacancy in parse_vacancies], db)
     db.commit()
-    return vacs
+
+    return parse_vacancies
 
 
 @app.get('/vacancies_filter')
 def vacancies_filter(db: Session = Depends(get_db)):
-    items = db.query(Vacancie).all()
-    return items
+    return db.query(Vacancy).all()

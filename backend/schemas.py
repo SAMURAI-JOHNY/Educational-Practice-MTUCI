@@ -12,14 +12,14 @@ class Vacancies(BaseModel):
 
 
 class ParsVacancies(BaseModel):
-    vacancie_id: int
+    vacancy_id: int
     url: str
     name: str
     premium: bool
     has_test: bool
     company_name: str
     contacts: str
-    vacancie_type: str
+    vacancy_type: str
     snippet_requirement: str
     snippet_responsibility: str
     schedule: str
