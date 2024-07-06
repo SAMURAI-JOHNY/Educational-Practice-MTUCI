@@ -8,7 +8,7 @@ def get_vacancies(params):
         'User-Agent': 'User-Agent'
     }
     pars_vacancies = []
-    for page in range(1, 21):
+    for page in range(0, 20):
         params.page = page
         print(params.page)
         response = requests.get(url, params=params, headers=headers)
